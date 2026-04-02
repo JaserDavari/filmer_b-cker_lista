@@ -4,6 +4,7 @@ def hämta_listan(filepath="mainfilen.txt"):
     """Denna funktion öppnar filen mainfilen.txt, 
     läser innehållet och returnerar det som en lista.
     """
+    open(filepath, "a").close()
     with open(filepath, "r") as file_local:
         listan_local = file_local.readlines()
     return listan_local
