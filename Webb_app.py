@@ -12,8 +12,19 @@ def add_todo():
 
 listan = Funktioner.hämta_listan()
 
-st.title("Min to-do lista")
-st.write("Här kan du lägga till, ta bort och markera uppgifter som slutförda.")
+st.set_page_config(layout="wide", 
+                   page_title="Jasers bok- och filmlista", 
+                   page_icon=":books:")
+
+st.title("Jasers bok- och filmlista")
+st.write("Här kan du lägga till <b>filmer och böcker som du vill se.</b>", 
+         unsafe_allow_html=True)
+
+col1, col2 = st.columns([1, 2])
+with col1:
+    st.text_input("Skriv en ny bok/film:", placeholder="Skriv här...",
+                  on_change=add_todo, key="new_todo")
+
 
 for index, lista in enumerate(listan):
     checkbox = st.checkbox(lista, key=lista)
@@ -23,6 +34,3 @@ for index, lista in enumerate(listan):
         del st.session_state[lista]
         st.rerun()
         st.success(f"Uppgiften '{lista.strip()}' är nu markerad som klar.") 
-
-st.text_input("Skriv en uppgift:", placeholder="Skriv här...",
-              on_change=add_todo, key="new_todo")
