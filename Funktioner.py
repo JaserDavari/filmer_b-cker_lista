@@ -1,20 +1,16 @@
-FILEPATH = "mainfilen.txt" #Definierar en konstant variabel som innehåller sökvägen till filen.
+from supabase import create_client
 
-def hämta_listan(filepath="mainfilen.txt"):
-    """Denna funktion öppnar filen mainfilen.txt, 
-    läser innehållet och returnerar det som en lista.
-    """
-    open(filepath, "a").close()
-    with open(filepath, "r") as file_local:
-        listan_local = file_local.readlines()
-    return listan_local
+SUPABASE_URL = "https://ruvzgsekvgjjqdgjiqwq.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1dnpnc2VrdmdqanFkZ2ppcXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NTMxMDcsImV4cCI6MjA5MTQyOTEwN30.rLzrmtXQRCJSdHHovn2GC_lkzEDF-0mL-jxOCoW_T1k"
 
-def write_listan(listan_arg, filepath="mainfilen.txt"):
-    """Denna funktion tar en lista som argument och skriver den till filen mainfilen.txt,
-    där varje element i listan blir en rad i filen."""
-    with open(filepath, "w") as file:
-        file.writelines(listan_arg)
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-if __name__ == "__main__": #Detta gör att koden nedanför bara körs när du kör den här filen direkt, och inte när du importerar den i en annan fil.
-    print("Tjena från funktioner")
-    print(hämta_listan()) #Testar att hämta listan från filen och skriva ut den.
+def hämta_listan():
+    response = supabase.table("lista").select("item").execute()
+    return [row["item"] for row in response.data]
+
+def write_listan(item):
+    supabase.table("lista").insert({"item": item}).execute()
+
+def ta_bort(item):
+    supabase.table("lista").delete().eq("item", item).execute()

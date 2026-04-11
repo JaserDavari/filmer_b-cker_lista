@@ -1,36 +1,29 @@
 import streamlit as st
 import Funktioner
 
-listan = Funktioner.hämta_listan()
-
-def add_todo():
-    lista = st.session_state["new_todo"]
-    listan.append(lista + "\n")
-    Funktioner.write_listan(listan)
-    st.session_state["new_todo"] = ""
-
-
-listan = Funktioner.hämta_listan()
-
-st.set_page_config(layout="wide", 
-                   page_title="Jasers bok- och filmlista", 
+st.set_page_config(layout="wide",
+                   page_title="Jasers bok- och filmlista",
                    page_icon=":books:")
 
 st.title("Jasers bok- och filmlista")
-st.write("Här kan du lägga till <b>filmer och böcker som du rekommenderar Jazz.</b>", 
+st.write("Här kan du lägga till <b>filmer och böcker som du rekommenderar Jazz.</b>",
          unsafe_allow_html=True)
 
-col1, col2 = st.columns([1, 2]) # Skapa två kolumner, där den första är smalare än den andra
+def add_todo():
+    item = st.session_state["new_todo"]
+    if item:
+        Funktioner.write_listan(item)
+        st.session_state["new_todo"] = ""
+
+col1, col2 = st.columns([1, 2])
 with col1:
     st.text_input("Skriv en ny bok/film:", placeholder="Skriv här...",
                   on_change=add_todo, key="new_todo")
 
+listan = Funktioner.hämta_listan()
 
-for index, lista in enumerate(listan):
-    checkbox = st.checkbox(lista, key=lista)
+for item in listan:
+    checkbox = st.checkbox(item, key=item)
     if checkbox:
-        listan.pop(index)
-        Funktioner.write_listan(listan)
-        del st.session_state[lista]
+        Funktioner.ta_bort(item)
         st.rerun()
-        st.success(f"Uppgiften '{lista.strip()}' är nu markerad som klar.") 
