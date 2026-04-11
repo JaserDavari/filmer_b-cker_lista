@@ -6,11 +6,11 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def hämta_listan():
-    response = supabase.table("lista").select("item").execute()
+    response = supabase.table("Lista").select("item").execute()
     return [row["item"] for row in response.data]
 
 def write_listan(item):
-    supabase.table("lista").insert({"item": item}).execute()
+    supabase.table("Lista").insert({"item": item}).execute()
 
 def ta_bort(item):
-    supabase.table("lista").delete().eq("item", item).execute()
+    supabase.table("Lista").delete().eq("item", item).execute()
