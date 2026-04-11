@@ -17,10 +17,10 @@ st.set_page_config(layout="wide",
                    page_icon=":books:")
 
 st.title("Jasers bok- och filmlista")
-st.write("Här kan du lägga till <b>filmer och böcker som du vill se.</b>", 
+st.write("Här kan du lägga till <b>filmer och böcker som du rekommenderar Jazz.</b>", 
          unsafe_allow_html=True)
 
-col1, col2 = st.columns([1, 2])
+col1, col2 = st.columns([1, 2]) # Skapa två kolumner, där den första är smalare än den andra
 with col1:
     st.text_input("Skriv en ny bok/film:", placeholder="Skriv här...",
                   on_change=add_todo, key="new_todo")
